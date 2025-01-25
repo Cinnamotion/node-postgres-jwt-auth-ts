@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import {
+	createUser,
 	deleteUser,
 	getUser,
 	getUsers,
@@ -50,25 +51,10 @@ const authenticateToken = (
 	}
 };
 
-// router.get(
-// 	"/",
-// 	authenticateToken,
-// 	(req: AuthenticatedRequest, res: Response) => {
-// 		const { id, email } = req.user!;
-// 		console.log("getAll", id, email);
-// 		res.json({ id, email
-
-// 		});
-// 	}
-// );
-
-router.get("/", getUsers);
-
-router.post("/", authenticateToken, () => {
-	console.log("post");
-});
-router.get("/:id", getUser);
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
+router.get("/", authenticateToken, getUsers);
+router.post("/", authenticateToken, createUser);
+router.get("/:id", authenticateToken, getUser);
+router.put("/:id", authenticateToken, updateUser);
+router.delete("/:id", authenticateToken, deleteUser);
 
 export default router;
